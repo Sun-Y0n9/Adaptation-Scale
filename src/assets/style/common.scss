@@ -1,0 +1,21 @@
+html,
+body,
+#app {
+    height: 100%;
+}
+
+#app {
+    margin: 0 auto;
+    position: relative;
+    background-image: url(../img/bg.webp);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.icon {
+    width: 1em;
+    height: 1em;
+    vertical-align: -0.15em;
+    fill: currentColor;
+    overflow: hidden;
+}

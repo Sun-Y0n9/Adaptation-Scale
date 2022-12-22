@@ -1,33 +1,56 @@
 <template>
   <div class="wrapper">
-    <div class="content" :style="{                                                                                                      width: homeWidth, height: homeHeight, margin: '0 ' + wrapperMargin                                                                                                      }">
+    <div class="content"
+      :style="{ width: homeWidth, height: homeHeight, margin: '0 ' + wrapperMargin }">
       <div class="scaleDom custom" v-bind:style="styleObject">
-        <div class="homeItem br" id="echarts1"></div>
-        <div class="homeItem br homeItem2"></div>
-        <div class="homeItem br homeItem3">
+        <div class="homeItem bb br">
+          <button type="button" class="green">Echarts 例子</button>
+          <div class="echarts1 demo"></div>
+        </div>
+        <div class="homeItem bb br homeItem2">
+          <button type="button" class="green">背景图片</button>
+        </div>
+        <div class="homeItem bb br homeItem3">
+          <button type="button" class="green">文字</button>
           <span>1</span>
           <span>2</span>
           <span>3</span>
           <span>4</span>
           <span>5</span>
+          <div>文字</div>
         </div>
-        <div class="homeItem homeItem4">
-          <img src="https://mobile.amap.com/static/content1Img2.8c69d6ca.png" alt="">
-          <img src="https://mobile.amap.com/static/content1Img4.9a248ab6.png" alt="">
+        <div class="homeItem bb homeItem4">
+          <button type="button" class="green">图片</button>
+          <div class="demo flex">
+            <img src="../assets/img/img1.jpg" alt="">
+            <img src="../assets/img/img2.jpg" alt="">
+          </div>
         </div>
-        <div class="homeItem bt bb br homeItem5">
-          <span v-for="(icon, index) in iconArr" :key="icon" title="title" @click="consoleRandom(index)">
-            <svg class="icon" aria-hidden="true">
-              <use :xlink:href="icon"></use>
-            </svg>
-          </span>
+        <div class="homeItem br homeItem5">
+          <button type="button" class="green">字体图标</button>
+          <div class="demo flex">
+            <span v-for="(icon, index) in iconArr" :key="icon" title="title" @click="consoleRandom(index)">
+              <svg class="icon" aria-hidden="true">
+                <use :xlink:href="icon"></use>
+              </svg>
+            </span>
+          </div>
         </div>
-        <div class="homeItem bt bb br"></div>
-        <div class="homeItem bt bb br"></div>
-        <div class="homeItem bt bb"></div>
-        <div class="homeItem br"></div>
-        <div class="homeItem br"></div>
-        <div class="homeItem br"></div>
+        <div class="homeItem br homeItem6">
+          <button type="button" class="green">网络字体</button>
+          <div class="albbph demo flex">阿里巴巴普惠体</div>
+        </div>
+        <div class="homeItem br">
+          <button type="button" class="green">嵌入iframe</button>
+          <div class="demo">
+            <iframe src="https://juejin.cn/" frameborder="0"></iframe>
+          </div>
+        </div>
+        <div class="homeItem br">
+          <button type="button" class="green">Lottie动效</button>
+          <div class="demo lottie">
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -36,74 +59,52 @@
 <script>
 // @ is an alias to /src
 import * as echarts from 'echarts';
-import '@/assets/fonts/iconfont.js';
-import { catchClause } from '@babel/types';
+import '@/assets/iconfont/iconfont.js';
+import debounce from "lodash/debounce";
+import lottie from 'lottie-web';
+import dataJson from '../assets/lottie/data.json';
 const option = {
-  title: {
-    text: 'Proportion of Browsers',
-    subtext: 'Fake Data',
-    top: 10,
-    left: 10
-  },
   tooltip: {
     trigger: 'item'
   },
   legend: {
-    type: 'scroll',
-    bottom: 10,
-    data: (function () {
-      var list = [];
-      for (var i = 1; i <= 28; i++) {
-        list.push(i + 2000 + '');
-      }
-      return list;
-    })()
+    top: '5%',
+    left: 'center'
   },
-  visualMap: {
-    top: 'middle',
-    right: 10,
-    color: ['red', 'yellow'],
-    calculable: true
-  },
-  radar: {
-    indicator: [
-      { name: 'IE8-', max: 400 },
-      { name: 'IE9+', max: 400 },
-      { name: 'Safari', max: 400 },
-      { name: 'Firefox', max: 400 },
-      { name: 'Chrome', max: 400 }
-    ]
-  },
-  series: (function () {
-    var series = [];
-    for (var i = 1; i <= 28; i++) {
-      series.push({
-        type: 'radar',
-        symbol: 'none',
-        lineStyle: {
-          width: 1
-        },
-        emphasis: {
-          areaStyle: {
-            color: 'rgba(0,250,0,0.3)'
-          }
-        },
-        data: [
-          {
-            value: [
-              (40 - i) * 10,
-              (38 - i) * 4 + 60,
-              i * 5 + 10,
-              i * 9,
-              (i * i) / 2
-            ],
-            name: i + 2000 + ''
-          }
-        ]
-      });
+  series: [
+    {
+      name: 'Access From',
+      type: 'pie',
+      radius: ['40%', '70%'],
+      avoidLabelOverlap: false,
+      itemStyle: {
+        borderRadius: 10,
+        borderColor: '#fff',
+        borderWidth: 2
+      },
+      label: {
+        show: false,
+        position: 'center'
+      },
+      emphasis: {
+        label: {
+          show: true,
+          fontSize: 40,
+          fontWeight: 'bold'
+        }
+      },
+      labelLine: {
+        show: false
+      },
+      data: [
+        { value: 1048, name: 'Search Engine' },
+        { value: 735, name: 'Direct' },
+        { value: 580, name: 'Email' },
+        { value: 484, name: 'Union Ads' },
+        { value: 300, name: 'Video Ads' }
+      ]
     }
-    return series;
-  })()
+  ]
 };
 export default {
   name: 'HomeView',
@@ -129,8 +130,18 @@ export default {
   },
   methods: {
     initEcharts1() {
-      const echarts1 = echarts.init(document.querySelector('#echarts1'));
+      const echarts1 = echarts.init(document.querySelector('.echarts1'));
       echarts1.setOption(option);
+    },
+    initLottie() {
+      const element = document.querySelector('.lottie');
+      lottie.loadAnimation({
+        container: element,
+        renderer: 'svg',
+        loop: true,
+        autoplay: true,
+        animationData: dataJson
+      });
     },
     consoleRandom(index) {
       let niconArr = window.JSON.parse(window.JSON.stringify(this.iconArr));
@@ -161,8 +172,9 @@ export default {
     this.setScale();
     this.$nextTick(() => {
       this.initEcharts1();
+      this.initLottie();
     })
-    window.addEventListener("resize", this.setScale)
+    window.addEventListener("resize", debounce(this.setScale, 200))
   },
   beforeDestroy() {
     window.addEventListener("resize", this.setScale)
@@ -187,53 +199,123 @@ export default {
   bottom: 0;
   transform-origin: 0 0;
 }
+
 .homeItem {
   width: 25%;
-  height: calc(100% / 3);
+  height: calc(100% / 2);
   float: left;
-}
-.custom {
-  border: 1px solid aqua;
-  border-radius: 5px;
-  .homeItem div {
+
+  button {
+    border: 0;
+    width: 170px;
+    height: 50px;
+    font-size: 20px;
+    font-weight: bold;
+    padding: 0;
+    border-radius: 0;
+    color: white;
+    outline: none;
+    position: relative;
+  }
+
+  button:before {
+    content: '';
+    display: block;
+    background: linear-gradient(to left, rgba(255, 255, 255, 0) 50%, rgba(255, 255, 255, 0.4) 50%);
+    background-size: 210% 100%;
+    background-position: right bottom;
     height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    border-radius: 0;
+    transition: all 1s;
+    -webkit-transition: all 1s;
   }
+
+  .green {
+    background-image: linear-gradient(to right, #25aae1, #40e495);
+    box-shadow: 0 4px 15px 0 rgba(49, 196, 190, 0.75);
+  }
+
+  .green:hover:before {
+    background-position: left bottom;
+  }
+  .demo {
+    height: calc(100% - 60px);
+    &.flex {
+      display: flex;
+    align-items: center;
+    justify-content: space-around;
+    }
+  }
+}
+
+.custom {
+  border: 1px solid transparent;
+  border-radius: 5px;
+
   .homeItem2 {
-    box-shadow: 0 0 3rem rgba(100,200,255,.5) inset;
+    background-image: url(../assets/img/tudi.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
   }
+
   .homeItem3 {
-    text-align: center;
-    span {
+    div, span{
       font-size: 140px;
+      color: #fff;
+    }
+    span {
       color: #999;
       line-height: 140px;
     }
-    
+
   }
   .homeItem4 {
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
+    img {
+      width: 200px;
+      border-radius: 80px;
+    }
   }
+
   .homeItem5 {
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
+
     span {
       cursor: pointer;
     }
+
     .icon {
       font-size: 40px;
     }
   }
+  .homeItem6 {
+    .albbph {
+    font-family: '阿里巴巴普惠体 2.0 35 Thin';
+    font-size: 40px;
+    text-align: center;
+    align-items: center;
+    color: #fff;
+  }
+  
+
+  }
+  iframe {
+    width: 100%;
+    height: 100%;
+  }
 }
-.bt {
-  border-top: 1px solid aqua;
-}
+
+
+
 .bb {
-  border-bottom: 1px solid aqua;
+  border-bottom: 1px solid transparent;
 }
+
 .br {
-  border-right: 1px solid aqua;
+  border-right: 1px solid transparent;
 }
 </style>
